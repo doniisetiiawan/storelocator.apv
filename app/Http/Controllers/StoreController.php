@@ -40,15 +40,33 @@ class StoreController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $store                = new Store();
+        $store->name          = Input::get('name');
+        $store->address       = Input::get('address');
+        $store->city          = Input::get('city');
+        $store->zip           = Input::get('zip');
+        $store->country       = Input::get('country');
+        $store->latitude      = Input::get('latitude');
+        $store->longitude     = Input::get('longitude');
+        $store->support_phone = Input::get('support_phone');
+        $store->support_email = Input::get('support_email');
+        $store->user_id       = 1;
+
+        if ($store->save()) {
+            return \Response::json([
+                'error' => false,
+                'msg'   => 'store created successfully.'],
+                200
+            )->setCallback(Input::get('callback'));
+        } else {
+            return \Response::json([
+                'error' => true,
+                'msg'   => 'issue creating store!'],
+                200
+            )->setCallback(Input::get('callback'));
+        }
     }
 
     public function show($id)
