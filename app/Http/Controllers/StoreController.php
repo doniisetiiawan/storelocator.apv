@@ -52,7 +52,7 @@ class StoreController extends Controller
         $store->longitude     = Input::get('longitude');
         $store->support_phone = Input::get('support_phone');
         $store->support_email = Input::get('support_email');
-        $store->user_id       = 1;
+        $store->user_id       = \Auth::user()->id;
 
         if ($store->save()) {
             return \Response::json([
@@ -90,16 +90,33 @@ class StoreController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $store                = Store::find($id);
+        $store->name          = Input::get('name');
+        $store->address       = Input::get('address');
+        $store->city          = Input::get('city');
+        $store->zip           = Input::get('zip');
+        $store->country       = Input::get('country');
+        $store->latitude      = Input::get('latitude');
+        $store->longitude     = Input::get('longitude');
+        $store->support_phone = Input::get('support_phone');
+        $store->support_email = Input::get('support_email');
+        $store->user_id       = \Auth::user()->id;
+
+        if ($store->save()) {
+            return \Response::json([
+                'error' => false,
+                'msg'   => 'store has been updated'],
+                200
+            )->setCallback(Input::get('callback'));
+        } else {
+            return \Response::json([
+                'error' => true,
+                'msg'   => 'issue updating store!'],
+                200
+            )->setCallback(Input::get('callback'));
+        }
     }
 
     /**
