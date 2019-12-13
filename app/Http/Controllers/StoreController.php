@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Input;
 
 class StoreController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $stores = Store::all();
@@ -44,15 +39,14 @@ class StoreController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $store = Store::find($id);
+        return \Response::json([
+            'error' => false,
+            'store' => $store],
+            200
+        )->setCallback(Input::get('callback'));
     }
 
     /**
